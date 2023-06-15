@@ -1,0 +1,22 @@
+  {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch AHK with Wine",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "wine",
+        "runtimeArgs": [
+          "/home/merlin/Documents/repos/github/GrimMonolith/Dependencies/AutoHotkey_1.1.34.04/AutoHotkeyU64.exe",
+          "${workspaceFolder}/testing.ahk"
+        ],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal",
+        "outputCapture": "std",
+        "args": [
+          "> /dev/null"
+        ]
+      }
+    ]
+  }
+  

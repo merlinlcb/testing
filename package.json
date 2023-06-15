@@ -1,0 +1,14 @@
+{
+  "name": "demoshelf-frontend",
+  "version": "1.0.0",
+  "description": "Replacement DemoShelf Generator",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Bennett Bros LLC",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^25.1.1"
+  }
+}

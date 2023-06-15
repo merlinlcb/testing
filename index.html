@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Electron App</title>
+  <style>
+    .game-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .game-card {
+      width: 300px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .field-label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    #saveButton {
+      display: block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Game Information</h1>
+
+  <div id="gameInfo"></div>
+
+  <button id="saveButton">Save All</button>
+
+  <script>
+    // Retrieve the passed data
+    const jsonData = JSON.parse(decodeURIComponent(new URLSearchParams(window.location.search).get('jsonData')));
+
+    // Create game cards for each game
+    const gameInfoContainer = document.getElementById('gameInfo');
+    const gameRow = document.createElement('div');
+    gameRow.classList.add('game-row');
+    gameInfoContainer.appendChild(gameRow);
+
+    const gameData = [];
+    
+    jsonData.forEach((game) => {
+      const gameCard = document.createElement('div');
+      gameCard.classList.add('game-card');
+
+      const gameImage = document.createElement('img');
+      gameImage.classList.add('game-image');
+      gameImage.src = game.image;
+      gameCard.appendChild(gameImage);
+
+      const gameNameLabel = document.createElement('label');
+      gameNameLabel.classList.add('field-label');
+      gameNameLabel.textContent = 'Game Name:';
+      gameCard.appendChild(gameNameLabel);
+
+      const gameName = document.createElement('input');
+      gameName.type = 'text';
+      gameName.value = game.gamename;
+      gameCard.appendChild(gameName);
+
+      const whoPickedItLabel = document.createElement('label');
+      whoPickedItLabel.classList.add('field-label');
+      whoPickedItLabel.textContent = 'Who Picked It:';
+      gameCard.appendChild(whoPickedItLabel);
+
+      const whoPickedIt = document.createElement('input');
+      whoPickedIt.type = 'text';
+      whoPickedIt.value = game.whopickedit;
+      gameCard.appendChild(whoPickedIt);
+
+      const linkInStoreLabel = document.createElement('label');
+      linkInStoreLabel.classList.add('field-label');
+      linkInStoreLabel.textContent = 'Link in Store:';
+      gameCard.appendChild(linkInStoreLabel);
+
+      const linkInStore = document.createElement('input');
+      linkInStore.type = 'text';
+      linkInStore.value = game.linkinstore;
+      gameCard.appendChild(linkInStore);
+
+      const numberOfPlayersLabel = document.createElement('label');
+      numberOfPlayersLabel.classList.add('field-label');
+      numberOfPlayersLabel.textContent = 'Number of Players:';
+      gameCard.appendChild(numberOfPlayersLabel);
+
+      const numberOfPlayers = document.createElement('input');
+      numberOfPlayers.type = 'text';
+      numberOfPlayers.value = game.numberofplayers;
+      gameCard.appendChild(numberOfPlayers);
+
+      const ageRatingLabel = document.createElement('label');
+      ageRatingLabel.classList.add('field-label');
+      ageRatingLabel.textContent = 'Age Rating:';
+      gameCard.appendChild(ageRatingLabel);
+
+      const ageRating = document.createElement('input');
+      ageRating.type = 'text';
+      ageRating.value = game.agerating;
+      gameCard.appendChild(ageRating);
+
+      const timeToPlayLabel = document.createElement('label');
+      timeToPlayLabel.classList.add('field-label');
+      timeToPlayLabel.textContent = 'Time to Play:';
+      gameCard.appendChild(timeToPlayLabel);
+
+      const timeToPlay = document.createElement('input');
+      timeToPlay.type = 'text';
+      timeToPlay.value = game.timetoplay;
+      gameCard.appendChild(timeToPlay);
+
+      const whyWePickedItLabel = document.createElement('label');
+      whyWePickedItLabel.classList.add('field-label');
+      whyWePickedItLabel.textContent = 'Why We Picked It:';
+      gameCard.appendChild(whyWePickedItLabel);
+
+      const whyWePickedIt = document.createElement('textarea');
+      whyWePickedIt.value = game.whywepickedit;
+      gameCard.appendChild(whyWePickedIt);
+
+      gameRow.appendChild(gameCard);
+    // Store game data in an object for each game card
+      gameData.push({
+        gameName,
+        whoPickedIt,
+        linkInStore,
+        numberOfPlayers,
+        ageRating,
+        timeToPlay,
+        whyWePickedIt,
+      });
+    });
+    const saveButton = document.getElementById('saveButton');
+    saveButton.addEventListener('click', () => {
+      // Update the game information with the edited values
+      jsonData.forEach((game, index) => {
+        game.gamename = gameData[index].gameName.value;
+        game.whopickedit = gameData[index].whoPickedIt.value;
+        game.linkinstore = gameData[index].linkInStore.value;
+        game.numberofplayers = gameData[index].numberOfPlayers.value;
+        game.agerating = gameData[index].ageRating.value;
+        game.timetoplay = gameData[index].timeToPlay.value;
+        game.whywepickedit = gameData[index].whyWePickedIt.value;
+      });
+
+      // Save the updated JSON data
+      const fs = require('fs');
+      fs.writeFileSync('your-json-file.json', JSON.stringify(jsonData, null, 2));
+
+      alert('Game information saved!');
+    });
+  </script>
+</body>
+</html>
